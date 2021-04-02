@@ -50,6 +50,22 @@ client.connect(err => {
     })
   })
 
+
+  app.get('/product/:id', (req, res) => {
+    const id = ObjectID(req.params.id);
+    gemsCollection.find({_id: id})
+    .toArray((err, document) =>{
+        res.send(document);
+    })
+  })
+
+
+
+
+
+
+
+
   console.log('connected successfully');
 });
 

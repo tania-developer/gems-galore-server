@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const gemsCollection = client.db("gems").collection("addGems");
+  const orderCollection = client.db("gems").collection("orders");
 
   app.post('/addProduct', (req, res) => {
       const newProduct = req.body;
@@ -58,6 +59,23 @@ client.connect(err => {
         res.send(document);
     })
   })
+
+  app.post('/orderProduct', (req, res) => {
+    const newProduct = req.body;
+    orderCollection.insertOne(newProduct)
+    .then(result =>{
+        console.log('product added', result);
+    })
+  })
+
+  app.get('/product', (req, res) => {
+    orderCollection.find({email: req.query.email})
+    .toArray((err, document) =>{
+        res.send(document);
+    })
+  })
+ 
+
 
 
 
